@@ -14,10 +14,12 @@ int main (void)
   int i=0;
   int j=0;
   int valida=0;
-  char examen[15];
   int igual;
   char num_cuenta[7];
   char cuenta2[10];
+  char nombre_nuevo[30];
+  int ren;
+  int k=0;
 
   datos alumno;
 
@@ -26,7 +28,7 @@ int main (void)
 
   system("clear");
   printf("\n\t BIENVENIDO - Universidad Iberoamericana -\n");
-  printf("\nPor favor ingrese su numero de cuenta:\n");
+  printf("\nPor favor ingrese su numero de cuenta sin digito verificador:\n");
   scanf("%s", num_cuenta);
 
   while (!feof(Alumnos))
@@ -34,6 +36,7 @@ int main (void)
       fscanf(Alumnos, "%30[^,],%7[^\n]\n",alumno[i].nombre, alumno[i].cuenta);
       i++;
     }
+  //ren=i+1;
 
   system("clear");
   for(j=0; j<=i; j++)
@@ -45,18 +48,34 @@ int main (void)
 	  valida=1;
 	}
     }
-
+  fclose(Alumnos);  
  
+  Alumnos = fopen("ALUMNOS.csv", "wt");
   if(valida==0)
     {
-      printf("ERROR: usted no esta registrado, o ha escrito mal su numero de cuenta.\n");
-      printf("\nFavor de intentar de nuevo.\n");
-      exit(1);
-    }
+      printf("Usted no esta registrado.\n");
 
-  fclose(Alumnos);  
-      
-  printf("\nIngrese el nombre del examen que desee resolver:\n");
-  scanf("%s", examen);
+      printf("PROCESO DE REGISTRO.\n");
+
+      getchar();
+      printf("Ingrese su nombre completo:\n");
+
+      gets(nombre_nuevo);
+     
+
+     
+      printf("Ingrese su numero de cuenta sin digito verificador:\n");
+      gets(cuenta2);
+
+      printf("\n%s,%s", nombre_nuevo, cuenta2);
+
+	for(ren=0; ren<i; ren++)
+	{
+	  fprintf(Alumnos, "%s,%s\n", alumno[ren].nombre, alumno[ren].cuenta);
+	  printf("\n%s,%s", alumno[ren].nombre, alumno[ren].cuenta);
+	}
+
+      fprintf(Alumnos, "%s,%s\n", nombre_nuevo, cuenta2);
+    }
             
 }
